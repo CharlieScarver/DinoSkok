@@ -16,6 +16,17 @@ var BoxOfSecrets = (function() {
         // 0 - getSlow
         // 1 - jumpAround
 
+        this.image = new Image();
+
+        switch(this.type) {
+        	case 0:
+        		this.image.src = "images/power up yellow.png";
+        		break;
+        	case 1:
+        		this.image.src = "images/power up blue.png";
+        		break;
+        }
+
         this.boundingBox = new Rectangle (
             x + this.width,
             y + this.height,
@@ -43,7 +54,7 @@ var BoxOfSecrets = (function() {
 
 
     BoxOfSecrets.prototype.render = function(ctx) {
-    	
+    	/*
         switch(boxOfSecrets.type) {
             case 0:
                 ctx.fillStyle = '#FFD801';
@@ -53,7 +64,9 @@ var BoxOfSecrets = (function() {
                 break;
         }
         ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+		*/
 
+		ctx.drawImage(this.image, this.position.x, this.position.y);
     };
 
     BoxOfSecrets.prototype.intersects = function (object) {

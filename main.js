@@ -18,6 +18,9 @@ var boxOfSecrets,
     boxOfSecretsTimer = 0,
     secsBetweenBoxSpawns = 30;
 
+var backgroundImage = new Image();
+backgroundImage.src = "images/background maybe.jpg";
+
 //dinos.push(new Dino(900, ground - 60));
 // /dinos.push(new Dino(1150, ground - 60));
 
@@ -136,8 +139,10 @@ function render(ctx) {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    ctx.fillStyle ='#AF7817';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    //ctx.fillStyle ='#AF7817';
+    //ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(backgroundImage, 0, 0);
+
 
     ctx.fillStyle = '#493D26';    
 
@@ -159,9 +164,15 @@ function render(ctx) {
     ctx.fillText("Spawn Next Dino on: " + spawnDinoScore + " Dino Points", 20, 60);
     ctx.fillText("Dinos: " + dinos.length, 20, 90);
 
+    ctx.fillStyle ='#FFD14A';
+    ctx.fillRect(790, 538, 290, 30);
+    ctx.fillStyle = '#493D26'; 
     ctx.fillText("Controls: Left, Right, Space, O", 800, 560);
 
-    ctx.fillText("Highest Score in the Universe: 2171.5 (17 dinos)", 20, 560);
+    ctx.fillStyle ='#FFD14A';
+    ctx.fillRect(10, 538, 450, 30);
+    ctx.fillStyle = '#493D26'; 
+    ctx.fillText("Highest Score in the Universe: 2323 (18 dinos)", 20, 560);
 
 
     ctx.fillRect(0, ground, canvas.width, 1);

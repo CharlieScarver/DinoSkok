@@ -1,0 +1,7 @@
+2171.5- sasho (17)
+1556.5 - dannie
+1643 - sasho
+
+
+player - 60x60
+dino - 30x60

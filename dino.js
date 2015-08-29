@@ -9,16 +9,16 @@ var Dino = (function() {
             idle: false
         };
 
-        this.animation = new Animation(40, 60, 0, 0, 2, 'images/dino shiit.png', 4, 2, 1);
+        this.animation = new Animation(40, 60, 0, 0, 2, 'images/dino shiit better.png', 4, 2, 1);
         //(width, height, row, column, limit, imgSrc, fps, columns, rows);
         
         this.width = 40;
         this.height = 60;
         
-        this.minVelocityX = 8;
-        this.velocityX = this.minVelocityX;
+        this.minVelocityX = 3;
+        this.velocityX = 8;
         this.velocityY = 6;
-        this.maxVelocityX = Math.floor(Math.random() * 2 + 16);
+        this.maxVelocityX = Math.floor(Math.random() * 3 + 15);
 
         this.ticksUntilAcceleration = 100;
         this.ticksPassed = 0;

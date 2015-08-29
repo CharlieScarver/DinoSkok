@@ -9,7 +9,7 @@ var Player = (function() {
             idle: true
         };
 
-        this.animation = new Animation(60, 70, 0, 0, 2, 'images/cactus shiit.png', 4, 2, 1);
+        this.animation = new Animation(70, 75, 0, 0, 2, 'images/cactus shiit expansion.png', 4, 2, 1);
         //(width, height, row, column, limit, imgSrc, fps, columns, rows);
         
         this.width = 60;
@@ -20,15 +20,21 @@ var Player = (function() {
         this.velocityYJumping = 23;
         this.velocityYFalling = 20;
 
-
         this.jumpDuration = 8;
         this.jumpState = 0;
 
-        this.ticksNeededToGainScore = 10;
-        this.ticksPassedSinceScoreGain = 0;
+        this.ticksNeededToGainDinoPoints = 10;
+        this.ticksPassedSinceDinoPointsGained = 0;
         this.dinoPoints = 0;
         this.MaxDinoPoints = 0;
 
+        this.dinoPointsBoost = 0;
+        this.dinoPointsBoostDuration = 1;
+        this.dinoPointsBoostState = this.dinoPointsBoostDuration;
+
+        this.immune = false;
+        this.immuneDuration = 300;
+        this.immuneState = this.immuneDuration;
 
         this.boundingBox = new Rectangle (
             this.position.x,
@@ -78,16 +84,33 @@ var Player = (function() {
             }
         }
 
-        if(this.ticksPassedSinceScoreGain == this.ticksNeededToGainScore) {
-            this.dinoPoints += (1 + dinos.length); 
-            this.ticksPassedSinceScoreGain = 0;
+        if(this.ticksPassedSinceDinoPointsGained == this.ticksNeededToGainDinoPoints) {
+            this.dinoPoints += (1 + dinos.length + (this.dinoPointsBoost * 2)); 
+            this.ticksPassedSinceDinoPointsGained = 0;
 
             if(this.MaxDinoPoints < this.dinoPoints) {
                 this.MaxDinoPoints = this.dinoPoints;
             }
         }
 
-        this.ticksPassedSinceScoreGain++;
+
+        if(this.immuneState < this.immuneDuration) {
+            this.immuneState++;
+            this.animation.setRow(1);
+        } else {
+            this.immune = false;
+            this.animation.setRow(0);
+        }
+
+
+        if(this.dinoPointsBoostState < this.dinoPointsBoostDuration) {
+            this.dinoPointsBoostState++;
+        } else {
+            this.dinoPointsBoost = 0;
+        }
+
+
+        this.ticksPassedSinceDinoPointsGained++;
 
         this.boundingBox.x = this.position.x + this.width / 4;
         this.boundingBox.y = this.position.y;
@@ -106,6 +129,10 @@ var Player = (function() {
 
         this.animation.draw(ctx);
 
+    };
+
+    Player.prototype.generateRandomBoostDuration = function() {
+        return 200 + (Math.floor(Math.random() * 150));
     };
 
     Player.prototype.intersects = function (object) {

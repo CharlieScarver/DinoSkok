@@ -12,19 +12,27 @@ var BoxOfSecrets = (function() {
         
         this.velocityX = 8;
 
-        this.type = Math.floor(Math.random() * 2);
+        this.type = Math.floor(Math.random() * 4);
         // 0 - getSlow
         // 1 - jumpAround
+        // 2 - pointBooster
+        // 3 - immuneSandstorm
 
         this.image = new Image();
 
         switch(this.type) {
         	case 0:
-        		this.image.src = "images/power up yellow.png";
+        		this.image.src = "images/power up yellow 25.png";
         		break;
         	case 1:
-        		this.image.src = "images/power up blue.png";
+        		this.image.src = "images/power up blue 25.png";
         		break;
+            case 2:
+                this.image.src = "images/power up green 25.png";
+                break;
+            case 3:
+                this.image.src = "images/power up pink 25.png";
+                break;
         }
 
         this.boundingBox = new Rectangle (

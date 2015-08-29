@@ -14,9 +14,16 @@ var ground = 500,
 var dinos = new Array(),
     spawnDinoScore = 0;
 
-var boxOfSecrets,
+var boxOfSecrets = new BoxOfSecrets(generateRandomPosition(), ground - 25),
     boxOfSecretsTimer = 0,
-    secsBetweenBoxSpawns = 30;
+    secsBetweenBoxSpawns = generateRandomBoxRespawnTime();
+
+var animationDuration = 80,
+    animationState = 80,
+    animationInitialTextSize = 10,
+    animationDeltaX = 190,
+    animationTextColor = "#0026FF",
+    animationText = "Wow!";
 
 var backgroundImage = new Image();
 backgroundImage.src = "images/background maybe.jpg";
@@ -79,7 +86,7 @@ function tick() {
 
     if (player.dinoPoints > spawnDinoScore-10 && player.dinoPoints < spawnDinoScore+10) {
         dinos.push(new Dino(generateRandomPosition(), ground - 60));
-        player.dinoPoints = spawnDinoScore+10;
+        player.dinoPoints = spawnDinoScore + 10;
         spawnDinoScore += (100 * (dinos.length % 3 == 0 ? 2 : 1));
     }
 
@@ -93,11 +100,40 @@ function tick() {
                     dinos.forEach(function(dino) {
                         dino.velocityX = dino.minVelocityX;
                     });
+
+                    animationTextColor = "#D4A017";
+                    animationText = "Dino Slowl";
+                    animationDeltaX = 190;
+                    animationState = 0;
                     break;
                 case 1:
                     player.jumpDuration += 2;
                     player.velocityYJumping += 2;
                     player.velocityYFalling += 1;
+
+                    animationTextColor = "#2B65EC";
+                    animationText = "Jump Higher";
+                    animationDeltaX = 210;
+                    animationState = 0;
+                    break;
+                case 2:
+                    player.dinoPointsBoost = dinos.length;
+                    player.dinoPointsBoostState = 0;
+                    player.dinoPointsBoostDuration = player.generateRandomBoostDuration();
+
+                    animationTextColor = "#52D017";
+                    animationText = "Dino Point Boost";
+                    animationDeltaX = 220;
+                    animationState = 0;
+                    break;       
+                case 3:
+                    player.immune = true;
+                    player.immuneState = 0;
+                    
+                    animationTextColor = "#F6358A";
+                    animationText = "I'm so Immune";
+                    animationDeltaX = 215;
+                    animationState = 0;
                     break;
             }
 
@@ -112,8 +148,9 @@ function tick() {
     }
 
     if(boxOfSecretsTimer == secsBetweenBoxSpawns) {
-        boxOfSecrets = new BoxOfSecrets(generateRandomPosition(), ground - 20);
+        boxOfSecrets = new BoxOfSecrets(generateRandomPosition(), ground - 25);
         boxOfSecretsTimer = 0;
+        secsBetweenBoxSpawns = generateRandomBoxRespawnTime();
     }
 
 
@@ -123,17 +160,22 @@ function tick() {
     
     dinos.forEach(function(dino) {
         dino.update();
-        if(dino.intersects(player)) { 
-            player.dinoPoints -= (3 
-                + Math.floor(dino.velocityX / 9) 
-                * (dino.velocityX / 2) 
-                + dinos.length);  
+        if(!player.immune) {
+            if(dino.intersects(player)) { 
+                player.dinoPoints -= (3 
+                    + Math.floor(dino.velocityX / 9) 
+                    * (dino.velocityX / 2) 
+                    + dinos.length);  
+            }
         }
     });
 
     
     
 }
+
+
+
 
 function render(ctx) {
 
@@ -143,6 +185,25 @@ function render(ctx) {
     //ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(backgroundImage, 0, 0);
 
+
+    if(animationState < animationDuration) {
+
+        ctx.fillStyle = animationTextColor;
+        ctx.font = (animationInitialTextSize + (animationState)) + "px Arial";
+        ctx.fillText(animationText, canvas.width / 2 - animationDeltaX - (animationState / 2), canvas.height / 2);
+
+        animationState++;
+    }
+
+    //ctx.font = "25px Arial";
+    //ctx.fillText(player.dinoPointsBoost, 450, 30)
+
+
+    if(player.immune) {
+        ctx.fillStyle = '#F6358A';
+        ctx.font = "20px Arial"
+        ctx.fillText("Immune", player.position.x - 5, player.position.y - 5);
+    }
 
     ctx.fillStyle = '#493D26';    
 
@@ -157,8 +218,17 @@ function render(ctx) {
         ctx.fillText("Paused", canvas.width / 2 - 100, 250);
     }
 
+    if(player.dinoPointsBoost > 0) {
+        ctx.fillStyle = '#52D017';   
+    } else {
+        ctx.fillStyle = '#493D26';  
+    }   
+
+    ctx.font = "28px Arial";
+    ctx.fillText("Dino Points: " + player.dinoPoints, 850, 40);
+
+    ctx.fillStyle = '#493D26';     
     ctx.font = "20px Arial";
-    ctx.fillText("Dino Points: " + player.dinoPoints, 900, 30);
 
     ctx.fillText("Next Box Of Secrets in: " + (secsBetweenBoxSpawns - boxOfSecretsTimer) + " seconds", 20, 30);
     ctx.fillText("Spawn Next Dino on: " + spawnDinoScore + " Dino Points", 20, 60);
@@ -172,10 +242,12 @@ function render(ctx) {
     ctx.fillStyle ='#FFD14A';
     ctx.fillRect(10, 538, 450, 30);
     ctx.fillStyle = '#493D26'; 
-    ctx.fillText("Highest Score in the Universe: 2323 (18 dinos)", 20, 560);
+    ctx.fillText("Highest Score in the Universe: 5292 (41 dinos)", 20, 560);
 
 
     ctx.fillRect(0, ground, canvas.width, 1);
+
+    // ------
 
     player.render(ctx);
     
@@ -205,6 +277,10 @@ function drawBoundingBoxes() {
 
 function generateRandomPosition() {
     return Math.floor(Math.random() * 500 + 1100);
+}
+
+function generateRandomBoxRespawnTime() {
+    return Math.floor(Math.random() * 20 + 17);
 }
 
 update();

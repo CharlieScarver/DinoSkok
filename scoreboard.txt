@@ -1,8 +1,39 @@
-2323 - sasho (18)
-2171.5- sasho (17)
+2450 - sasho (19)
+2323 - sasho
+2171.5- sasho 
 1556.5 - dannie
 1643 - sasho
 
+5292 - toni (41)
+5800
 
 player - 60x60
 dino - 30x60
+box - 20x20
+
+1.0
+- basic concept - jumping over dinos
+- main logic 
+ = movement, jumping
+ = dino behavior
+ = lose condition
+- box of slowage
+- box of jumpage
+- pretty cactus
+- pretty dinos
+
+1.1
+- pretty background
+- pretty boxes
+
+2.0
+- box of immunitage				
+- box of scorage				
+- random box respawnage			
+- bigger, better boxes			
+- such beauty, mush wow dinos	
+- immunity effect cactus shiit	
+
+
+- zi boss						X
+

@@ -15,7 +15,7 @@ var Dino = (function() {
         this.width = 40;
         this.height = 60;
         
-        this.minVelocityX = 3;
+        this.minVelocityX = 0;
         this.velocityX = 8;
         this.velocityY = 6;
         this.maxVelocityX = Math.floor(Math.random() * 3 + 15);
@@ -51,7 +51,7 @@ var Dino = (function() {
             console.log(this.velocityX);
         }
 
-        if (this.velocityX < this.maxVelocityX) {
+        if(this.velocityX < this.maxVelocityX) {
             this.ticksPassed++;
         }
         
@@ -61,7 +61,9 @@ var Dino = (function() {
         this.boundingBox.width = this.width / 2;
 
         this.animation.position.set(this.position.x, this.position.y);
-        this.animation.update();
+        if(this.velocityX > 0) {
+	        this.animation.update();
+    	}
     };
 
 

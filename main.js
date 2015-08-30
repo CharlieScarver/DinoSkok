@@ -84,10 +84,9 @@ function tick() {
         gameOver = true;
     }
 
-    if (player.dinoPoints > spawnDinoScore-10 && player.dinoPoints < spawnDinoScore+10) {
+    if (player.dinoPoints > spawnDinoScore) {
         dinos.push(new Dino(generateRandomPosition(), ground - 60));
-        player.dinoPoints = spawnDinoScore + 10;
-        spawnDinoScore += (100 * (dinos.length % 3 == 0 ? 2 : 1));
+        spawnDinoScore += ((dinos.length < 11 ? 100 : 150) * (dinos.length % 3 == 0 ? 2 : 1));
     }
 
     if (boxOfSecrets) {
@@ -219,7 +218,7 @@ function render(ctx) {
     }
 
     if(player.dinoPointsBoost > 0) {
-        ctx.fillStyle = '#52D017';   
+        ctx.fillStyle = '#6AA121';   
     } else {
         ctx.fillStyle = '#493D26';  
     }   

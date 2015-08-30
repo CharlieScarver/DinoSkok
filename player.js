@@ -85,7 +85,7 @@ var Player = (function() {
         }
 
         if(this.ticksPassedSinceDinoPointsGained == this.ticksNeededToGainDinoPoints) {
-            this.dinoPoints += (1 + dinos.length + (this.dinoPointsBoost * 2)); 
+            this.dinoPoints += (1 + dinos.length + (this.dinoPointsBoost * 2.5)); 
             this.ticksPassedSinceDinoPointsGained = 0;
 
             if(this.MaxDinoPoints < this.dinoPoints) {
@@ -132,7 +132,7 @@ var Player = (function() {
     };
 
     Player.prototype.generateRandomBoostDuration = function() {
-        return 200 + (Math.floor(Math.random() * 150));
+        return 300 + (Math.floor(Math.random() * 150));
     };
 
     Player.prototype.intersects = function (object) {

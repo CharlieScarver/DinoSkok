@@ -7,20 +7,20 @@ Jump over the dinos with your snazzy skateboard and sunglasses
 **1.0**
 - basic concept - jumping over dinos
 - main logic 
- - movement, jumping
- - dino behavior
- - lose condition
+  - movement, jumping
+  - dino behavior
+  - lose condition
 - box of slowage
 - box of jumpage
 - pretty cactus
 - pretty dinos
 
--
+---
 **1.1**
 - pretty background
 - pretty boxes
 
--
+---
 **2.0**
 - box of immunitage				
 - box of scorage				
